@@ -1,0 +1,7 @@
+dummy.apkg
+hermes.db
+__pycache__/**.*
+*.log
+.vscode/
+.DS_Store
+__pycache__/main.cpython-310.pyc

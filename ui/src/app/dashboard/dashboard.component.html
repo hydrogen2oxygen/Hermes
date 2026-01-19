@@ -1,0 +1,93 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Hermes Language Learning System</h1>
+    <p>Transform your Anki decks into an interactive learning experience</p>
+  </header>
+
+  <!-- Status Messages -->
+  <div class="messages" *ngIf="errorMessage || successMessage">
+    <div class="alert alert-error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+    <div class="alert alert-success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+  </div>
+
+  <!-- Upload Section -->
+  <section class="upload-section">
+    <div
+      class="drop-zone"
+      [class.drag-over]="isDragOver"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+    >
+      <div class="drop-zone-content">
+        <div class="upload-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#1976d2" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+          </svg>
+        </div>
+        <h3>Import Anki Deck</h3>
+        <p>Drag & drop your .apkg file here, or click to browse</p>
+
+        <input
+          type="file"
+          id="fileInput"
+          accept=".apkg"
+          (change)="onFileSelected($event)"
+          style="display: none;"
+        >
+        <label for="fileInput" class="btn btn-primary">Select File</label>
+
+        <div class="upload-info" *ngIf="isLoading">
+          <p>Processing your deck...</p>
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="uploadProgress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Decks Section -->
+  <section class="decks-section" *ngIf="decks && decks.length > 0">
+    <h2>Your Decks</h2>
+    <div class="decks-grid">
+      <div class="deck-card" *ngFor="let deck of decks">
+        <div class="deck-header">
+          <h3>{{ deck.name }}</h3>
+          <span class="deck-id">{{ deck.id }}</span>
+        </div>
+        <div class="deck-stats">
+          <div class="stat">
+            <span class="stat-value">{{ deck.cardCount }}</span>
+            <span class="stat-label">Cards</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{ deck.lessonCount }}</span>
+            <span class="stat-label">Lessons</span>
+          </div>
+        </div>
+        <div class="deck-actions">
+          <button class="btn btn-secondary">Start Learning</button>
+          <button class="btn btn-outline">View Details</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Empty State -->
+  <section class="empty-state" *ngIf="!decks || decks.length === 0">
+    <div class="empty-content">
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#ccc" viewBox="0 0 16 16">
+        <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h13A1.5 1.5 0 0 1 16 2.5v11a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-11zM1.5 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-13z"/>
+        <path d="M3 4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 4zm0 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6A.5.5 0 0 1 3 8zm0 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 10zm0 2a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5z"/>
+      </svg>
+      <h3>No decks yet</h3>
+      <p>Import your first Anki deck to get started with your language learning journey.</p>
+    </div>
+  </section>
+</div>
